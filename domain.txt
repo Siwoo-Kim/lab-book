@@ -1,0 +1,86 @@
+
+@Embeddable
+
+BasicTime
+    updated: LocalDateTime
+    created: LocalDateTime
+
+BasicDate
+    updated: LocalDate
+    created: LocalDate
+    lastUpdated: <updated|created>
+
+
+Image
+    name: string
+    path: string
+    extension: {JPG,PNG,SVG,JPEG}
+
+@Entity
+
+Domain
+    name: string
+    image: Image
+    content: string
+
+
+Notice
+    title: string
+    content: string,
+    basicDate: BasicDate
+    blogger: Blogger[BloggerRole.Role:ADMIN]
+    likes: int
+
+
+NoticeReply
+    notice: Notice
+    blogger: Blogger
+    content: string @Length(max=50, min=5)
+    basicDate: BasicDate
+    children: Set<NoticeReply>
+    parent: NoticeReply
+
+Blogger
+    email: string
+    password: string
+    name: string
+    nickName: string
+    roles: Set<BloggerRole>
+
+BloggerRole
+    blogger: Blogger
+    role: {ADMIN, GUEST}
+
+
+
+Language:
+    Name :string
+    SvgName :string
+    Description: string
+    Type: {OBJECT_ORIENTED, FUNCTIONAL}
+    Categories: List<Category>
+
+Category:
+    name :string
+    image :Image
+    basicTime: BasicTime
+    content:string
+    type: CategoryType {TECH, ORDINAL, BOOK}
+    Topic :List<Topic>
+
+
+Topic
+    Name
+    BasicTime
+    description
+    youtubeId: string
+    Rating: number
+    category :Category
+    Paragraph :List<Paragraph>
+
+Paragraph
+    Name
+    Description
+    Code: String{<Pre>}
+    parent: Paragraph
+    children: List<Paragraph>
